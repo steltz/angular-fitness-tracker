@@ -10,10 +10,10 @@
         email
         required
         #emailInput="ngModel">
-      <mat-error *ngIf="emailInput.hasError('required')">Field must not be empty.</mat-error>
-      <mat-error *ngIf="!emailInput.hasError('required')">E-Mail is invalid.</mat-error>
+      <mat-error *ngIf="emailInput.hasError('required')">E-Mail is required</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">E-Mail is invalid</mat-error>
     </mat-form-field>
-    <mat-form-field hintLabel="Should be at least 6 characters long.">
+    <mat-form-field id="password-input" hintLabel="Should be at least 6 characters long.">
       <input
         type="password"
         matInput
@@ -24,8 +24,8 @@
         minlength="6"
         #pwInput="ngModel">
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
-      <mat-error>Has to be at least 6 characters long.</mat-error>
+      <mat-error>Has to be at least 6 characters long</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <button type="submit" mat-raised-button color="primary">Sign Up</button>
   </form>
 </div>
