@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-new-training',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-training.component.styl']
 })
 export class NewTrainingComponent implements OnInit {
+  @Output() startTraining = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onStartTraining() {
+    this.startTraining.emit();
   }
 
 }
