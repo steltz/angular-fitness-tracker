@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 
+import { isEmpty } from 'lodash';
+
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
@@ -41,7 +43,7 @@ export class AuthService {
   }
 
   isAuth() {
-    return this.user !== null;
+    return this.user != null || !isEmpty(this.user);
   }
 
   private authSuccess() {
