@@ -5,9 +5,9 @@ export class TrainingService {
   exerciseChanged = new Subject<Exercise>();
   private availableExercises: Exercise[] = [
     { id: 'crunches', name: 'Crunches', duration: 30, calories: 10 },
-    { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 8 },
-    { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 8 },
-    { id: 'burpees', name: 'Burpees', duration: 60, calories: 12 }
+    { id: 'touch-toes', name: 'Touch Toes', duration: 60, calories: 8 },
+    { id: 'side-lunges', name: 'Side Lunges', duration: 30, calories: 8 },
+    { id: 'burpees', name: 'Burpees', duration: 15, calories: 12 }
   ];
   private activeExercise: Exercise;
   private exercises: Exercise[] = [];
