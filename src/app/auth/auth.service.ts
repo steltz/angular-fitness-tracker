@@ -12,17 +12,16 @@ import { isEmpty } from 'lodash';
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
-  private user: User;
+  private isAuthenticated = false;
 
   constructor(private router: Router, private afAuth: AngularFireAuth) {}
 
   async registerUser(authData: AuthData) {
     const { email, password } = authData;
     try {
-      const user = await this.afAuth
+      await this.afAuth
         .auth
         .createUserWithEmailAndPassword(email, password);
-      console.log(user);
       this.authSuccess();
     } catch (err) {
       console.log(err);
@@ -32,10 +31,9 @@ export class AuthService {
   async login(authData: AuthData) {
     const { email, password } = authData;
     try {
-      const user = await this.afAuth
+      await this.afAuth
         .auth.
         signInWithEmailAndPassword(email, password);
-      console.log(user);
       this.authSuccess();
     } catch (err) {
       console.log(err);
@@ -43,20 +41,18 @@ export class AuthService {
   }
 
   logout() {
-    this.user = null;
+    this.afAuth.auth.signOut();
     this.authChange.next(false);
     this.router.navigate(['/login']);
-  }
-
-  getUser() {
-    return { ...this.user };
+    this.isAuthenticated = false;
   }
 
   isAuth() {
-    return this.user != null || !isEmpty(this.user);
+    return this.isAuthenticated;
   }
 
   private authSuccess() {
+    this.isAuthenticated = true;
     this.authChange.next(true);
     this.router.navigate(['/training']);
   }
