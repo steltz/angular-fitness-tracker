@@ -7,14 +7,18 @@ import { AuthData } from './auth-data.model';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { isEmpty } from 'lodash';
+import { TrainingService } from '../training/training.service';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private isAuthenticated = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth) {}
+  constructor(
+    private router: Router,
+    private afAuth: AngularFireAuth,
+    private trainingService: TrainingService
+  ) {}
 
   async registerUser(authData: AuthData) {
     const { email, password } = authData;
@@ -41,6 +45,7 @@ export class AuthService {
   }
 
   logout() {
+    this.trainingService.cancelSubscriptions();
     this.afAuth.auth.signOut();
     this.authChange.next(false);
     this.router.navigate(['/login']);
