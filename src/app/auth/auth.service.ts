@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 
+import { AngularFireAuth } from '@angular/fire/auth';
+
 import { isEmpty } from 'lodash';
 
 @Injectable()
@@ -12,24 +14,32 @@ export class AuthService {
   authChange = new Subject<boolean>();
   private user: User;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private afAuth: AngularFireAuth) {}
 
-  registerUser(authData: AuthData) {
-    const { email } = authData;
-    this.user = {
-      email,
-      uid: Math.round(Math.random() * 10000).toString()
-    };
-    this.authSuccess();
+  async registerUser(authData: AuthData) {
+    const { email, password } = authData;
+    try {
+      const user = await this.afAuth
+        .auth
+        .createUserWithEmailAndPassword(email, password);
+      console.log(user);
+      this.authSuccess();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  login(authData: AuthData) {
-    const { email } = authData;
-    this.user = {
-      email,
-      uid: Math.round(Math.random() * 10000).toString()
-    };
-    this.authSuccess();
+  async login(authData: AuthData) {
+    const { email, password } = authData;
+    try {
+      const user = await this.afAuth
+        .auth.
+        signInWithEmailAndPassword(email, password);
+      console.log(user);
+      this.authSuccess();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   logout() {

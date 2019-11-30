@@ -71,10 +71,6 @@ export class TrainingService {
     return { ...this.activeExercise };
   }
 
-  getExercises() {
-    return [ ...this.exercises ];
-  }
-
   private saveExercise(exercise: Exercise) {
     this.db.collection('finishedExercises').add(exercise);
   }
