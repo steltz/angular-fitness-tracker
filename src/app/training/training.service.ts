@@ -2,7 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
-import { summaryFileName } from '@angular/compiler/src/aot/util';
+import { UIService } from '../shared/ui.service';
 
 @Injectable()
 export class TrainingService {
@@ -13,7 +13,7 @@ export class TrainingService {
   private activeExercise: Exercise;
   private firebaseSubscriptions: Subscription[] = [];
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private uiService: UIService) {}
 
   async fetchAvailableExercises() {
     this.firebaseSubscriptions.push(
@@ -31,8 +31,13 @@ export class TrainingService {
         .subscribe((exercises: Exercise[]) => {
           this.availableExercises = exercises;
           this.exercisesChanged.next([...this.availableExercises]);
-        })
-      );
+        }, err => {
+          this.uiService.showSnackbar(
+            'Failed to fetch exercises, please try again later',
+            null,
+            3000
+          );
+        }));
   }
 
   fetchFinishedExercises() {
