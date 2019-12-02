@@ -12,12 +12,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { NgModule } from '@angular/core';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
 
 import { environment } from '../environments/environment';
 
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
 import { UIService } from './shared/ui.service';
+
+import { appReducer } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { UIService } from './shared/ui.service';
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
+    StoreModule.forRoot({
+      ui: appReducer
+    })
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent]
