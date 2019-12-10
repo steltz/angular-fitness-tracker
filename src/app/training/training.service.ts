@@ -16,6 +16,7 @@ export class TrainingService {
   constructor(private db: AngularFirestore, private uiService: UIService) {}
 
   async fetchAvailableExercises() {
+    this.uiService.loadingStateChanged.next(true);
     this.firebaseSubscriptions.push(
       this.db
         .collection('availableExercises')
@@ -29,9 +30,12 @@ export class TrainingService {
           });
         })
         .subscribe((exercises: Exercise[]) => {
+          this.uiService.loadingStateChanged.next(false);
           this.availableExercises = exercises;
           this.exercisesChanged.next([...this.availableExercises]);
+          // this.exercisesChanged.next(null);
         }, err => {
+          this.uiService.loadingStateChanged.next(false);
           this.uiService.showSnackbar(
             'Failed to fetch exercises, please try again later',
             null,
